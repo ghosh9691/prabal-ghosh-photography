@@ -3,7 +3,7 @@ baseurl: "https://ghosh9691.github.io/prabal-ghosh-photography"
 #baseurl: "" # Comment the above line and uncomment this to test the website locally
 image_fulls_loc: "/images/fulls"
 image_thumbs_loc: "/images/thumbs"
-google_analytics: "UA-46465113-2"
+google_analytics: "G-2GM4QVDX1G"
 
 # UI configs
 title: "Creations by Prabal Ghosh"

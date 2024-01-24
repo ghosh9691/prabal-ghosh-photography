@@ -17,7 +17,7 @@ footer:
  bio: "I am a software developer by profession, a flight simulation enthusiast and an amateur photographer living in the NYC area."
 # Configure which exif data to display
 # Tag is the actual exif tag, icon is a fontawesome icon. Use JSON notation without line breaks
-exif: '[{"tag": "Model", "icon": "camera-retro"}, {"tag": "FNumber", "icon": "dot-circle-o"}, {"tag": "ExposureTime", "icon": "clock-o"}, {"tag": "ISOSpeedRatings", "icon": "info-circle"}]'
+exif: '[{"tag": "Model", "icon": "camera-retro"}, {"tag": "FNumber", "icon": "dot-circle-o"}, {"tag": "ExposureTime", "icon": "clock-o"}, {"tag": "ISOSpeedRatings", "icon": "info-circle"}, {"tag": "FocalLength", "icon": "fa-ruler-horizontal"}]'
 social_urls:
 #  twitter: "https://www.twitter.com/ram__patra"
   instagram: "https://www.instagram.com/ghosh9691"

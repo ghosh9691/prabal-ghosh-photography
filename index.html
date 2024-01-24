@@ -83,37 +83,18 @@ layout: default
                                 </a>
                             </li>
                         {% endif %}
+                        {% if site.social_urls.mail %}
+                            <li>
+                                <a href="{{ site.social_urls.mail }}" class="icon fa-mail">
+                                    <span class="label">Mail</span>
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </section>
                 <p class="copyright">
                     &copy; {{ site.author }}. Design: {{ site.web_design }}
                 </p>
-            </div>
-            <div>
-                <section>
-                    <h2>Get in touch</h2>
-                    <form method="post" class="gform" data-email="prabalg@gmail.com" 
-                        action="https://script.google.com/macros/s/AKfycbxbuKIOMFuh9cx3EUA2LCDYt9onKkq_THISJ7uoIwms1LzMlfVej6Nrug91T1xiuwPK/exec">
-                        <div class="field half first">
-                            <input type="text" name="name" id="name" placeholder="Name"/>
-                        </div>
-                        <div class="field half">
-                            <input type="text" name="email" id="email" placeholder="Email"/>
-                        </div>
-                        <div class="field">
-                            <textarea name="message" id="message" rows="4" placeholder="Message"></textarea>
-                        </div>
-                        <ul class="actions">
-                            <li><input type="submit" value="Send" class="special"/></li>
-                            <li><input type="reset" value="Reset"/></li>
-                        </ul>
-                        <div style="display:none" class="thankyou_message">
-                            <!-- You can customize the thankyou message by editing the code below -->
-                            <h2><em>Thanks</em> for contacting us! We will get back to you soon!
-                            </h2>
-                        </div>
-                    </form>
-                </section>
             </div>
         </div>
     </footer>

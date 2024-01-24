@@ -6,12 +6,12 @@ image_thumbs_loc: "/images/thumbs"
 google_analytics: "UA-46465113-2"
 
 # UI configs
-title: "Photography by Ram Patra"
-subtitle: "See the world through my eyes!"
-author: "Ram Patra"
+title: "Creations by Prabal Ghosh"
+subtitle: "Your eyes, my lens!"
+author: "Prabal ghosh"
 header:
- title: "Photography"
- subtitle: "by Ram Patra"
+ title: "Photographs"
+ subtitle: "by Prabal Ghosh"
 footer:
  name: "Hey there, my name is Ram"
  bio: "I am a developer and a tech aficionado from India. Love making teeny tiny apps solving tiny problems in life and now learning photography."
@@ -21,8 +21,8 @@ web_design: "AJ"
 # Tag is the actual exif tag, icon is a fontawesome icon. Use JSON notation without line breaks
 exif: '[{"tag": "Model", "icon": "camera-retro"}, {"tag": "FNumber", "icon": "dot-circle-o"}, {"tag": "ExposureTime", "icon": "clock-o"}, {"tag": "ISOSpeedRatings", "icon": "info-circle"}]'
 social_urls:
-  twitter: "https://www.twitter.com/ram__patra"
-  instagram: "https://www.instagram.com/ram_patra"
-  dribbble: "https://dribbble.com/rampatra"
-  linkedin: "https://in.linkedin.com/in/ram-patra"
-  github: "https://www.github.com/rampatra"
+#  twitter: "https://www.twitter.com/ram__patra"
+  instagram: "https://www.instagram.com/ghosh9691"
+#  dribbble: "https://dribbble.com/rampatra"
+  linkedin: "https://in.linkedin.com/in/prabalghosh"
+  github: "https://www.github.com/ghosh9691"

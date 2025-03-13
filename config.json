@@ -1,0 +1,15 @@
+{
+    "categories": [
+      {
+        "name": "Landscape",
+        "path": "landscape",
+        "albums": []
+      },
+      {
+        "name": "Weddings",
+        "path": "weddings",
+        "albums": ["malashri"]
+      }
+    ]
+  }
+  

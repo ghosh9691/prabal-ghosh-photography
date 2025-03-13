@@ -1,99 +1,86 @@
-document.addEventListener("DOMContentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", async () => {
+    const categoryList = document.getElementById("category-list");
     const gallery = document.getElementById("gallery");
 
-    async function loadConfig() {
-        try {
-            const response = await fetch("config.json");
-            return await response.json();
-        } catch (error) {
-            console.error("Error loading config.json:", error);
-            return null;
-        }
-    }
+    let config = await fetch("config.json").then(res => res.json());
 
-    function renderHome(categories) {
-        gallery.innerHTML = `<h1>Prabal Ghosh | Photography</h1>`;
-        categories.forEach(category => {
-            let categoryDiv = document.createElement("div");
-            categoryDiv.className = "category";
-            categoryDiv.innerHTML = `<h2>${category.name}</h2>
-                <img src="photos/${category.path}/cover.jpg" alt="${category.name}" onerror="this.style.display='none'">`;
-            categoryDiv.addEventListener("click", () => {
-                if (category.albums.length > 0) {
-                    loadAlbums(category);
-                } else {
-                    loadPhotos(category.path, category.photos);
-                }
+    // Populate Sidebar Categories
+    config.categories.forEach(category => {
+        let li = document.createElement("li");
+        li.innerHTML = `<a href="#" onclick="loadCategory('${category.path}')">${category.name}</a>`;
+        categoryList.appendChild(li);
+    });
+
+    // Load category
+    window.loadCategory = function (categoryPath) {
+        gallery.innerHTML = "";
+        let category = config.categories.find(c => c.path === categoryPath);
+
+        if (!category.albums || category.albums.length === 0) {
+            loadImages(categoryPath, "");
+        } else {
+            category.albums.forEach(album => {
+                let div = document.createElement("div");
+                div.innerHTML = `<div class="gallery-item"><a href="#" onclick="loadImages('${categoryPath}', '${album}')">${album}</a></div>`;
+                gallery.appendChild(div);
             });
-            gallery.appendChild(categoryDiv);
-        });
-    }
-
-    function loadAlbums(category) {
-        gallery.innerHTML = `<h2>${category.name}</h2><button onclick="initGallery()">Back to Home</button>`;
-        category.albums.forEach(album => {
-            let albumDiv = document.createElement("div");
-            albumDiv.className = "album";
-            albumDiv.innerHTML = `<h3>${album.replace("_", " ")}</h3>
-                <img src="photos/${category.path}/${album}/cover.jpg" alt="${album}" onerror="this.style.display='none'">`;
-            albumDiv.addEventListener("click", () => loadPhotos(`${category.path}/${album}`, category.photos));
-            gallery.appendChild(albumDiv);
-        });
-    }
-
-    function loadPhotos(folderPath, photos) {
-        gallery.innerHTML = `<h2>Photos</h2><button onclick="initGallery()">Back to Home</button>`;
-        photos.forEach(photo => {
-            let imgDiv = document.createElement("div");
-            imgDiv.className = "photo";
-            imgDiv.innerHTML = `<img src="photos/${folderPath}/${photo}" alt="Photo">`;
-            imgDiv.addEventListener("click", () => showFullImage(`photos/${folderPath}/${photo}`));
-            gallery.appendChild(imgDiv);
-        });
-    }
-
-    function showFullImage(src) {
-        let modal = document.createElement("div");
-        modal.id = "photo-modal";
-        modal.innerHTML = `
-            <span class="close">&times;</span>
-            <img src="${src}" alt="Full Size Photo">
-            <div id="exif-info">Loading EXIF...</div>
-        `;
-        document.body.appendChild(modal);
-        modal.style.display = "flex";
-
-        modal.querySelector(".close").addEventListener("click", () => {
-            modal.remove();
-        });
-
-        loadExif(src);
-    }
-
-    async function loadExif(src) {
-        let exifDiv = document.getElementById("exif-info");
-        try {
-            const exiftoolUrl = `https://exiftool.org/extract?url=${src}`;
-            let response = await fetch(exiftoolUrl);
-            let data = await response.json();
-            exifDiv.innerHTML = `
-                <p>Camera: ${data.Model || "Unknown"}</p>
-                <p>Lens: ${data.LensModel || "Unknown"}</p>
-                <p>ISO: ${data.ISO || "N/A"}</p>
-                <p>Shutter: ${data.ExposureTime || "N/A"}</p>
-                <p>Aperture: ${data.FNumber || "N/A"}</p>
-            `;
-        } catch (error) {
-            exifDiv.innerHTML = "<p>EXIF data not available</p>";
         }
-    }
+    };
 
-    async function initGallery() {
-        const data = await loadConfig();
-        if (data) {
-            renderHome(data.categories);
+    // Load images
+    window.loadImages = function (category, album) {
+        gallery.innerHTML = "";
+        let folder = `photos/${category}/${album ? album + '/' : ''}`;
+        fetch(folder)
+            .then(response => response.text())
+            .then(html => {
+                let parser = new DOMParser();
+                let doc = parser.parseFromString(html, "text/html");
+                let images = Array.from(doc.querySelectorAll("a"))
+                                  .map(a => a.href)
+                                  .filter(href => /\.(jpg|jpeg|png|gif)$/i.test(href));
+
+                images.forEach(imgSrc => {
+                    let img = document.createElement("img");
+                    img.src = imgSrc;
+                    img.classList.add("gallery-item");
+                    img.onclick = () => openLightbox(imgSrc);
+                    gallery.appendChild(img);
+                });
+            });
+    };
+
+    // Lightbox Functionality
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const exifData = document.getElementById("exif-data");
+    const closeLightbox = document.getElementById("close-lightbox");
+
+    let currentIndex = 0;
+    let currentImages = [];
+
+    window.openLightbox = function (imgSrc) {
+        currentIndex = currentImages.indexOf(imgSrc);
+        lightboxImg.src = imgSrc;
+        lightbox.classList.remove("hidden");
+        fetchExifData(imgSrc);
+    };
+
+    closeLightbox.onclick = () => lightbox.classList.add("hidden");
+
+    document.getElementById("prev-img").onclick = () => {
+        if (currentIndex > 0) {
+            openLightbox(currentImages[--currentIndex]);
         }
-    }
+    };
 
-    initGallery();
+    document.getElementById("next-img").onclick = () => {
+        if (currentIndex < currentImages.length - 1) {
+            openLightbox(currentImages[++currentIndex]);
+        }
+    };
+
+    async function fetchExifData(imgSrc) {
+        exifData.innerText = `EXIF Info: ${imgSrc}`;
+    }
 });

@@ -3,16 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prabal Ghosh Photography</title>
-    <link rel="stylesheet" href="assets/style.css">
+    <title>Prabal Ghosh | Photography</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Prabal Ghosh | Photography</h1>
-    </header>
-    <main>
+    <div class="sidebar">
+        <h1>Prabal Ghosh.</h1>
+        <nav>
+            <ul id="category-list"></ul>
+        </nav>
+        <hr>
+        <nav>
+            <ul>
+                <li><a href="about.html">About Me</a></li>
+                <li><a href="contact.html">Get in Touch</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="main-content">
         <div id="gallery"></div>
-    </main>
-    <script src="assets/script.js"></script>
+    </div>
+
+    <div id="lightbox" class="hidden">
+        <span id="close-lightbox">&times;</span>
+        <img id="lightbox-img" src="" alt="">
+        <div id="exif-data"></div>
+        <button id="prev-img">&#10094;</button>
+        <button id="next-img">&#10095;</button>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
